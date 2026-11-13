@@ -5,52 +5,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bandul Praktikum Online</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1e3a5f">
+<meta name="theme-color" content="#081426">
 <style>
-:root{--bg:#f4f6fa;--card:#fff;--tx:#14213d;--mut:#64748b;--ac:#2563eb;--bd:#d9e0ec}
-@media(prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--tx:#e2e8f0;--mut:#94a3b8;--ac:#60a5fa;--bd:#334155}}
-*{box-sizing:border-box}body{margin:0;font:15px system-ui,sans-serif;background:var(--bg);color:var(--tx)}
-header{background:#1e3a5f;color:#fff;padding:14px 16px}header h1{margin:0;font-size:18px}header small{opacity:.75}
-main{max-width:900px;margin:0 auto;padding:12px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:12px}
-button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer}
-button.alt{background:transparent;color:var(--ac);border:1px solid var(--ac)}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:end}label{font-size:12px;color:var(--mut);display:block}
-input{width:90px;padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--tx)}
-.ses{padding:8px;border-bottom:1px solid var(--bd);cursor:pointer}.ses:hover,.ses.on{background:var(--bg)}
-table{border-collapse:collapse;width:100%}td{padding:4px 6px;border-bottom:1px solid var(--bd)}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.tag{display:inline-block;padding:2px 8px;border-radius:99px;color:#fff;font-size:12px}
-svg{width:100%;height:auto;background:var(--card)}.mut{color:var(--mut);font-size:13px}
+:root{--bg:#081426;--card:rgba(14,40,66,.65);--tx:#e6f1ff;--mut:#8ba3c0;--ac:#22d3c5;--bd:#1d4f6e}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,sans-serif;color:var(--tx);background:radial-gradient(1100px 560px at 15% -10%,#12335a,transparent),#081426;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+.hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0f2c4d,#0a1f38);border:1px solid var(--bd);border-radius:18px;padding:18px}
+.hl{display:flex;gap:16px;align-items:center}
+.logo{width:72px;height:72px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:40px;flex:none}
+.eyebrow{font-size:12px;letter-spacing:.18em;color:#22d3ee;font-weight:700;display:flex;align-items:center;gap:8px}
+i.dot{width:9px;height:9px;border-radius:50%;background:#22d3c5;display:inline-block}
+h1{margin:2px 0;font-size:30px}
+.badge{font-size:14px;background:#0e4d5f;color:#5eead4;border:1px solid #1f8a9c;border-radius:8px;padding:2px 10px;vertical-align:middle}
+.hero p{margin:0;color:var(--mut);font-size:14px}
+.hr{text-align:right}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #1f8a9c;background:#0b3a4c;color:#5eead4;border-radius:99px;padding:8px 16px;font-size:12px;letter-spacing:.1em;font-weight:700}
+.hr small{display:block;margin-top:10px;color:#22d3ee;letter-spacing:.14em;font-size:11px;font-weight:700}
+.eb2{margin-top:22px;font-size:12px;letter-spacing:.2em;color:#22d3ee;font-weight:700}
+h2{margin:4px 0 12px;font-size:24px}h2 small{font-size:14px;color:var(--mut);font-weight:400}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:8px;margin-bottom:12px}
+.tabs button{background:transparent;color:var(--mut);padding:12px 16px;border-radius:10px;font-weight:600}
+.tabs button.on{background:linear-gradient(135deg,#0e7490,#115e75);color:#fff;box-shadow:0 0 0 1px #22d3ee55 inset}
+.note{display:flex;align-items:center;gap:10px;background:#0b3a3f;border:1px solid #14766f;border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#b8f5ee}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.18em}
+button{background:#0e7490;color:#fff;border:0;border-radius:10px;padding:9px 14px;font:inherit;cursor:pointer}
+button.alt{background:#0b3a4c;color:#5eead4;border:1px solid #1f8a9c}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+label{font-size:12px;color:var(--mut);display:block}
+input{width:100px;padding:8px;border:1px solid var(--bd);border-radius:8px;background:#071a2e;color:var(--tx)}
+.ses{padding:10px;border-bottom:1px solid var(--bd);cursor:pointer;border-radius:8px}.ses:hover,.ses.on{background:#0b3a4c}
+table{border-collapse:collapse;width:100%}td{padding:6px 8px;border-bottom:1px solid var(--bd)}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;color:#fff;font-size:12px;font-weight:700}
+svg{width:100%;height:auto}.mut{color:var(--mut);font-size:13px}
 </style>
 </head>
 <body>
-<header><h1>⏱ Bandul Praktikum Online</h1><small>Data dari ESP32 · bisa diakses dari mana saja</small></header>
-<main>
-<div class="card">
-  <div class="row"><b>Sesi rekaman</b><span class="mut" id="st">memuat…</span>
-  <button class="alt" onclick="muat()">Segarkan</button><button class="alt" onclick="demo()">Data contoh</button></div>
-  <div id="daftar"></div>
-</div>
+<div class="wrap">
+<section class="hero">
+  <div class="hl"><div class="logo">⏱</div><div>
+    <div class="eyebrow"><i class="dot"></i>PRAKTIKUM FISIKA / INSTRUMENTASI</div>
+    <h1>Web Bandul <span class="badge">ESP32</span></h1>
+    <p>Aika Azhar Suci Ramadhani</p>
+    <p>Program Studi Fisika, FST, UIN Sunan Gunung Djati Bandung</p></div></div>
+  <div class="hr"><span class="pill"><i class="dot"></i>v1.0 · ESP32 + GITHUB</span><small>PENDULUM PHOTOGATE ANALYSIS</small></div>
+</section>
+<div class="eb2">PENDULUM ANALYSIS WORKSPACE</div>
+<h2>Measurement dashboard <small>/ v1.0</small></h2>
+<nav class="tabs">
+  <button data-n="1" onclick="tab(1)">1 · Sesi Data</button>
+  <button data-n="2" onclick="tab(2)">2 · Parameter</button>
+  <button data-n="3" onclick="tab(3)">3 · Hasil Analisis</button>
+  <button data-n="4" onclick="tab(4)">4 · Grafik</button>
+  <button data-n="5" onclick="tab(5)">5 · Data Mentah</button>
+</nav>
+<div class="note"><i class="dot"></i><span id="st">memuat…</span></div>
+
+<div class="pn" data-n="1"><div class="card"><h3>SESI REKAMAN</h3>
+  <div class="row"><button class="alt" onclick="muat()">Segarkan</button><button class="alt" onclick="demo()">Data contoh</button></div>
+  <div id="daftar"></div></div></div>
+
+<div id="kosong" class="card" style="display:none"><span class="mut">Pilih sesi dulu di tab 1 · Sesi Data.</span></div>
+
 <div id="detail" style="display:none">
-  <div class="card"><b>Parameter</b> <span class="mut">(ubah bila perlu, hasil dihitung ulang)</span>
+  <div class="pn" data-n="2"><div class="card"><h3>PARAMETER</h3><p class="mut" style="margin-top:0">Ubah bila perlu, lalu klik Hitung.</p>
     <div class="row">
       <div><label>Panjang L (m)</label><input id="L" type="number" step="0.001"></div>
       <div><label>Lebar penghalang w (m)</label><input id="w" type="number" step="0.001"></div>
       <div><label>Jari-jari R (m)</label><input id="R" type="number" step="0.001"></div>
       <div><label>Massa (g)</label><input id="m" type="number" step="0.01"></div>
       <div><label>g acuan</label><input id="gac" type="number" step="0.01" value="9.78"></div>
-      <button onclick="hitung()">Hitung</button>
-    </div></div>
-  <div class="card"><b>Mode 1 · Analisis otomatis</b><div id="hasil"></div></div>
-  <div class="card"><div id="g1"></div><div id="g2"></div></div>
-  <div class="card"><b>Mode 2 · Data mentah</b>
-    <p class="mut">Unduh CSV (format sama dengan aplikasi desktop, bisa dibuka lewat “Muat File CSV” di Bandul Mode 1) untuk dianalisis sendiri.</p>
-    <button onclick="unduh()">⬇ Unduh CSV</button></div>
+      <button onclick="hitung();tab(3)">Hitung</button>
+    </div></div></div>
+  <div class="pn" data-n="3"><div class="card"><h3>MODE 1 · ANALISIS OTOMATIS</h3><div id="hasil"></div></div></div>
+  <div class="pn" data-n="4"><div class="card"><div id="g1"></div><div id="g2"></div></div></div>
+  <div class="pn" data-n="5"><div class="card"><h3>MODE 2 · DATA MENTAH</h3>
+    <p class="mut">Unduh CSV (format sama dengan aplikasi desktop, bisa dibuka lewat “Muat File CSV” di Bandul Mode 1).</p>
+    <button onclick="unduh()">⬇ Unduh CSV</button>
+    <div id="raw" style="max-height:360px;overflow:auto;margin-top:10px"></div></div></div>
 </div>
-</main>
+</div>
 <script>
 // === ISI: akun & repo GitHub Anda ===
-const OWNER = "aikaazharsuciramadhani-ux", REPO = "bandul-praktikum2026";// =======================================================================
+const OWNER = "USERNAME_GITHUB", REPO = "bandul-praktikum";
+// =======================================================================
 let sesi = {}, cur = null;
 const $ = id => document.getElementById(id);
 const fmt = (x, d = 3) => Number.isFinite(x) ? x.toFixed(d) : "—";
@@ -80,7 +119,16 @@ async function pilih(k) {
   const m = s.meta || {};
   $("L").value = m.panjang_m ?? 0.45; $("w").value = m.lebar_m ?? 0.05;
   $("R").value = m.jari_m ?? m.panjang_m ?? 0.45; $("m").value = m.massa_g ?? "";
-  $("detail").style.display = ""; tampilDaftar(); hitung();
+  $("detail").style.display = ""; tampilDaftar(); renderRaw(s); hitung(); tab(3);
+}
+function tab(n) {
+  document.querySelectorAll(".pn").forEach(e => e.style.display = e.dataset.n == n ? "" : "none");
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.n == n));
+  $("kosong").style.display = (n > 1 && !cur) ? "" : "none";
+}
+function renderRaw(s) {
+  $("raw").innerHTML = "<table><tr><td>#</td><td>t_masuk (µs)</td><td>t_keluar (µs)</td><td>durasi (µs)</td></tr>" +
+    s.tm.map((a, i) => `<tr><td>${i + 1}</td><td>${a}</td><td>${s.tk[i]}</td><td>${(s.tk[i] - a + 2 ** 32) % 2 ** 32}</td></tr>`).join("") + "</table>";
 }
 
 // ---------- inti analisis (port dari bandul_analisis.py) ----------
@@ -140,7 +188,7 @@ function grafik(x, y, jd, xl, yl) {
   const tk = [0, .5, 1].map(f => { const v = y0 + f * (y1 - y0); return `<text x="${p - 4}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="currentColor">${v.toFixed(3)}</text>`; }).join("");
   return `<svg viewBox="0 0 ${W} ${H}" style="color:var(--mut)"><text x="${W / 2}" y="16" text-anchor="middle" font-size="13" fill="var(--tx)">${jd}</text>
     <line x1="${p}" y1="${H - 32}" x2="${W - 10}" y2="${H - 32}" stroke="currentColor"/><line x1="${p}" y1="24" x2="${p}" y2="${H - 32}" stroke="currentColor"/>
-    <polyline points="${pts}" fill="none" stroke="#2563eb" stroke-width="1.6"/>${x.map((v, i) => `<circle cx="${X(v)}" cy="${Y(y[i])}" r="2.2" fill="#2563eb"/>`).join("")}${tk}
+    <polyline points="${pts}" fill="none" stroke="#22d3ee" stroke-width="1.6"/>${x.map((v, i) => `<circle cx="${X(v)}" cy="${Y(y[i])}" r="2.2" fill="#22d3ee"/>`).join("")}${tk}
     <text x="${W / 2}" y="${H - 8}" text-anchor="middle" font-size="12" fill="currentColor">${xl}</text>
     <text x="12" y="${H / 2}" font-size="12" fill="currentColor" transform="rotate(-90 12 ${H / 2})" text-anchor="middle">${yl}</text></svg>`;
 }
@@ -165,7 +213,7 @@ function demo() {   // data sintetis untuk mencoba tampilan tanpa alat
   sesi = { contoh: { perangkat: "DEMO", meta: { panjang_m: L, lebar_m: w, jari_m: L, massa_g: 46.04 }, tm, tk } };
   $("st").textContent = "mode contoh"; pilih("contoh");
 }
-muat();
+muat(); tab(1);
 </script>
 </body>
 </html>
