@@ -39,6 +39,10 @@ input{width:100px;padding:8px;border:1px solid var(--bd);border-radius:8px;backg
 table{border-collapse:collapse;width:100%}td{padding:6px 8px;border-bottom:1px solid var(--bd)}td:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .tag{display:inline-block;padding:2px 10px;border-radius:99px;color:#fff;font-size:12px;font-weight:700}
 svg{width:100%;height:auto}.mut{color:var(--mut);font-size:13px}
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.seg button{background:#0b3a4c;color:#8ba3c0;border:1px solid var(--bd)}
+.seg button.on{background:#0e7490;color:#fff;border-color:#22d3ee}
+body[data-mode="2"] .tabs button[data-n="3"],body[data-mode="2"] .tabs button[data-n="4"]{display:none}
 </style>
 </head>
 <body>
@@ -53,22 +57,27 @@ svg{width:100%;height:auto}.mut{color:var(--mut);font-size:13px}
 </section>
 <div class="eb2">PENDULUM ANALYSIS WORKSPACE</div>
 <h2>Measurement dashboard <small>/ v1.0</small></h2>
+<div class="seg"><button data-m="1" onclick="setMode(1)">MODE 1 · Rekam + analisis otomatis</button><button data-m="2" onclick="setMode(2)">MODE 2 · Data mentah (analisis sendiri)</button></div>
 <nav class="tabs">
-  <button data-n="1" onclick="tab(1)">1 · Sesi Data</button>
-  <button data-n="2" onclick="tab(2)">2 · Parameter</button>
-  <button data-n="3" onclick="tab(3)">3 · Hasil Analisis</button>
-  <button data-n="4" onclick="tab(4)">4 · Grafik</button>
-  <button data-n="5" onclick="tab(5)">5 · Data Mentah</button>
+  <button data-n="0" onclick="tab(0)">1 · Rekam</button>
+  <button data-n="1" onclick="tab(1)">2 · Sesi Data</button>
+  <button data-n="2" onclick="tab(2)">3 · Parameter</button>
+  <button data-n="3" onclick="tab(3)">4 · Hasil Analisis</button>
+  <button data-n="4" onclick="tab(4)">5 · Grafik</button>
+  <button data-n="5" onclick="tab(5)">6 · Data Mentah</button>
 </nav>
 <div class="note"><i class="dot"></i><span id="st">memuat…</span></div>
 
+<div class="pn" data-n="0"><div class="card"><h3>REKAM LANGSUNG DARI ALAT</h3>
+  <p class="mut" style="margin-top:0">Isi parameter di tab 3, pilih Mode di atas, klik Mulai, lalu ayunkan bandul melewati sensor.</p>
+  <div class="row"><button onclick="mulai()">▶ Mulai rekam</button><button class="alt" onclick="berhenti()">■ Berhenti</button>
+  <label style="display:flex;gap:6px;align-items:center"><input id="up" type="checkbox" style="width:auto"> Simpan ke GitHub (bisa dilihat online)</label></div>
+  <div style="font-size:42px;font-weight:700;margin-top:10px"><span id="cnt">0</span> <span class="mut" style="font-size:16px">lewatan</span> <span id="rec" class="mut" style="font-size:16px"></span></div>
+</div></div>
 <div class="pn" data-n="1"><div class="card"><h3>SESI REKAMAN</h3>
   <div class="row"><button class="alt" onclick="muat()">Segarkan</button><button class="alt" onclick="demo()">Data contoh</button></div>
   <div id="daftar"></div></div></div>
 
-<div id="kosong" class="card" style="display:none"><span class="mut">Pilih sesi dulu di tab 1 · Sesi Data.</span></div>
-
-<div id="detail" style="display:none">
   <div class="pn" data-n="2"><div class="card"><h3>PARAMETER</h3><p class="mut" style="margin-top:0">Ubah bila perlu, lalu klik Hitung.</p>
     <div class="row">
       <div><label>Panjang L (m)</label><input id="L" type="number" step="0.001"></div>
@@ -76,8 +85,11 @@ svg{width:100%;height:auto}.mut{color:var(--mut);font-size:13px}
       <div><label>Jari-jari R (m)</label><input id="R" type="number" step="0.001"></div>
       <div><label>Massa (g)</label><input id="m" type="number" step="0.01"></div>
       <div><label>g acuan</label><input id="gac" type="number" step="0.01" value="9.78"></div>
-      <button onclick="hitung();tab(3)">Hitung</button>
+      <button onclick="hitung();tab(MODE == 1 ? 3 : 5)">Hitung</button>
     </div></div></div>
+<div id="kosong" class="card" style="display:none"><span class="mut">Pilih sesi dulu di tab 1 · Sesi Data.</span></div>
+
+<div id="detail" style="display:none">
   <div class="pn" data-n="3"><div class="card"><h3>MODE 1 · ANALISIS OTOMATIS</h3><div id="hasil"></div></div></div>
   <div class="pn" data-n="4"><div class="card"><div id="g1"></div><div id="g2"></div></div></div>
   <div class="pn" data-n="5"><div class="card"><h3>MODE 2 · DATA MENTAH</h3>
@@ -88,7 +100,7 @@ svg{width:100%;height:auto}.mut{color:var(--mut);font-size:13px}
 </div>
 <script>
 // === ISI: akun & repo GitHub Anda ===
-const OWNER = "USERNAME_GITHUB", REPO = "bandul-praktikum";
+const OWNER = "aikaazharsuciramadhani-ux", REPO = "bandul-praktikum2026";
 // =======================================================================
 let sesi = {}, cur = null;
 const $ = id => document.getElementById(id);
@@ -119,12 +131,12 @@ async function pilih(k) {
   const m = s.meta || {};
   $("L").value = m.panjang_m ?? 0.45; $("w").value = m.lebar_m ?? 0.05;
   $("R").value = m.jari_m ?? m.panjang_m ?? 0.45; $("m").value = m.massa_g ?? "";
-  $("detail").style.display = ""; tampilDaftar(); renderRaw(s); hitung(); tab(3);
+  $("detail").style.display = ""; tampilDaftar(); renderRaw(s); hitung(); tab(MODE == 1 ? 3 : 5);
 }
 function tab(n) {
   document.querySelectorAll(".pn").forEach(e => e.style.display = e.dataset.n == n ? "" : "none");
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.n == n));
-  $("kosong").style.display = (n > 1 && !cur) ? "" : "none";
+  $("kosong").style.display = (n > 2 && !cur) ? "" : "none";
 }
 function renderRaw(s) {
   $("raw").innerHTML = "<table><tr><td>#</td><td>t_masuk (µs)</td><td>t_keluar (µs)</td><td>durasi (µs)</td></tr>" +
@@ -213,7 +225,33 @@ function demo() {   // data sintetis untuk mencoba tampilan tanpa alat
   sesi = { contoh: { perangkat: "DEMO", meta: { panjang_m: L, lebar_m: w, jari_m: L, massa_g: 46.04 }, tm, tk } };
   $("st").textContent = "mode contoh"; pilih("contoh");
 }
-muat(); tab(1);
+const LIVE = location.protocol === "http:";   // dibuka dari ESP32 (http) = bisa merekam; dari GitHub Pages (https) = arsip saja
+let MODE = 1, poll = null;
+function setMode(m) {
+  MODE = m; document.body.dataset.mode = m;
+  document.querySelectorAll(".seg button").forEach(b => b.classList.toggle("on", b.dataset.m == m));
+}
+async function mulai() {
+  try {
+    await fetch("/api/mulai", { method: "POST" }); $("rec").textContent = "● merekam…"; clearInterval(poll);
+    poll = setInterval(async () => { try { $("cnt").textContent = (await (await fetch("/api/status")).json()).n; } catch (e) {} }, 500);
+  } catch (e) { $("rec").textContent = "alat tidak terjangkau"; }
+}
+async function berhenti() {
+  clearInterval(poll); $("rec").textContent = "memproses…";
+  try {
+    const up = $("up").checked ? 1 : 0;
+    const q = `L=${$("L").value}&w=${$("w").value}&R=${$("R").value}&m=${$("m").value || 0}&up=${up}`;
+    const j = await (await fetch("/api/stop?" + q, { method: "POST" })).json();
+    $("cnt").textContent = j.tm.length;
+    $("rec").textContent = up ? (j.unggah ? "✔ tersimpan di GitHub" : "✖ gagal simpan ke GitHub (alat belum tersambung internet)") : "selesai";
+    sesi.live = { perangkat: "ESP32 (langsung)", meta: { panjang_m: +$("L").value, lebar_m: +$("w").value, jari_m: +$("R").value, massa_g: +$("m").value || undefined }, tm: j.tm, tk: j.tk };
+    pilih("live");
+  } catch (e) { $("rec").textContent = "gagal berhenti/memproses"; }
+}
+$("L").value = 0.45; $("w").value = 0.05; $("R").value = 0.45; setMode(1);
+if (LIVE) { $("st").textContent = "Terhubung ke alat ESP32 (arsip online butuh internet)"; tab(0); }
+else { document.querySelector('.tabs button[data-n="0"]').style.display = "none"; muat(); tab(1); }
 </script>
 </body>
 </html>
